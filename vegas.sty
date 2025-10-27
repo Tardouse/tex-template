@@ -1,0 +1,223 @@
+% ================================================================================
+% LaTeX Style File (.sty) - Optimized and Reorganized
+% Based on the user-provided file, with improved structure and loading order.
+% ================================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{vegas}[2025/10/27 v1.1 Custom Style]
+
+%--------------------------------------------------------------------------------
+% 1. 页面布局 (Page Layout)
+% Must be loaded early.
+%--------------------------------------------------------------------------------
+\usepackage[
+	a4paper,
+	left=1.5cm,
+	right=1.5cm,
+	top=2.5cm,
+	bottom=2.5cm,
+	columnsep=1cm,
+]{geometry}
+
+%--------------------------------------------------------------------------------
+% 2. 核心设置 (编码与字体)
+% Core Settings (Encoding & Fonts)
+%--------------------------------------------------------------------------------
+\usepackage[T1]{fontenc}        % Use T1 font encoding for better western character support.
+\usepackage[utf8]{inputenc}     % Specify UTF-8 source file encoding.
+\usepackage{textcomp}           % Provides extra symbols like €, ℃.
+\usepackage{mathptmx}           % Use PostScript Times font for text and math.
+\usepackage{pslatex}            % Further tweaks for using Times fonts.
+\usepackage{microtype}          % Improves typography with subtle character spacing adjustments.
+
+%--------------------------------------------------------------------------------
+% 3. 数学与公式 (Mathematics)
+%--------------------------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsfonts} % The AMS math suite for advanced formulas and symbols.
+\usepackage{bm}                 % Provides \bm for bold math symbols (especially Greek letters).
+\usepackage{nicefrac}           % Provides \nicefrac for inline fractions (e.g., 1/2).
+\usepackage{pifont}             % Provides access to PostScript Zapf Dingbats fonts.
+\usepackage{siunitx}            % Professional typesetting of SI units and numbers.
+
+%--------------------------------------------------------------------------------
+% 4. 图形与颜色 (Figures & Colors)
+%--------------------------------------------------------------------------------
+\usepackage{graphicx}           % Core package for including graphics.
+\usepackage[table,xcdraw,dvipsnames]{xcolor}             % Powerful color support.
+\usepackage{caption}            % Customize captions for figures and tables.
+\usepackage{subcaption}         % Support for subfigures and subtables.
+
+% --- Caption Style Setup ---
+% MODIFICATION START: Replaced problematic caption setup to remove bold text.
+% The previous method reloaded the caption package and forced both label and text to be bold.
+% The corrected method uses \captionsetup for proper configuration.
+
+% \captionsetup{compatibility=false} % This is often not needed.
+% \usepackage[labelfont={small,bf},textfont={small,bf}]{caption} % <<< This was the problematic line.
+
+% Corrected setup: Label is bold, but caption text is normal.
+\captionsetup{
+	font=small,           % Sets the base font size for the entire caption to 'small'.
+	labelfont=bf,         % Sets the label ("Figure 1", "Table I") to boldface.
+	textfont=normalfont   % Sets the caption description text to normal font (not bold).
+}
+% \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig} % subfig is older, subcaption is loaded and generally preferred.
+% MODIFICATION END
+
+%--------------------------------------------------------------------------------
+% 5. 表格 (Tables)
+%--------------------------------------------------------------------------------
+\usepackage{booktabs}           % For creating professional-quality tables (e.g., three-line tables).
+\usepackage{multirow}           % Support for spanning multiple rows in tables.
+\usepackage{longtable}          % For tables that span multiple pages.
+\usepackage{tabularx}
+\usepackage{hhline}             % (Less common) Enhanced line drawing for tables.
+\usepackage{csvsimple}          % (Special use) Read and typeset data from CSV files.
+
+%--------------------------------------------------------------------------------
+% 6. 算法 (Algorithms)
+%--------------------------------------------------------------------------------
+% \usepackage{algorithmic}        % The basic environment for algorithm typesetting.
+\usepackage[ruled,linesnumbered]{algorithm2e} % A more powerful alternative to algorithmic.
+% `ruled`: adds ruling lines; `linesnumbered`: enables line numbers.
+% Note: It's often best to choose one: `algorithmic` or `algorithm2e`.
+
+%--------------------------------------------------------------------------------
+% 7. 页面格式与排版优化 (Formatting & Layout Optimization)
+%--------------------------------------------------------------------------------
+\usepackage{titlesec}           % For customizing section, subsection, etc., titles.
+\titleformat*{\section}{\large\bfseries}
+\titleformat*{\subsection}{\large\bfseries}
+\titleformat*{\subsubsection}{\large\bfseries}
+\titlespacing*{\section}{0cm}{*3}{0.2cm}
+\titlespacing*{\subsection}{0cm}{*2}{0.15cm}
+
+\usepackage{titling}            % Control over the \maketitle command.
+\settowidth{\thanksmarkwidth}{*}
+\setlength{\thanksmargin}{-\thanksmarkwidth}
+
+\usepackage{enumitem}           % Powerful and flexible list customization.
+\usepackage[hang,flushmargin]{footmisc} % Control the layout of footnotes.
+
+\usepackage{float}              % Improved control over the placement of floats (figures, tables).
+\usepackage{placeins}           % Provides \FloatBarrier to prevent floats from moving too far.
+\usepackage{balance}            % Balances columns on the last page in two-column mode.
+
+%--------------------------------------------------------------------------------
+% 8. 引用与链接 (Citations & Hyperlinks)
+% `hyperref` should generally be the LAST package to be loaded.
+%--------------------------------------------------------------------------------
+% \usepackage{cite}               % Improves formatting of citations.
+\usepackage[hyphens]{url}       % Allows URLs to break at hyphens.
+\urlstyle{tt}                   % Sets the font style for URLs to typewriter.
+
+\usepackage[
+	pagebackref=true,           % Adds back-references from bibliography to the text.
+	breaklinks=true,            % Allows long links to be broken across lines.
+	colorlinks,                 % Use colors for links instead of boxes.
+	bookmarks=false             % Do not create PDF bookmarks.
+]{hyperref}
+
+% --- Hyperlink Color Setup ---
+\hypersetup{
+	linkcolor={orange!20!red},
+	citecolor={blue!80!green},
+	urlcolor={orange!70!red}
+}
+
+% --- Autoref Naming Convention ---
+% Must be defined AFTER hyperref is loaded.
+\renewcommand*{\sectionautorefname}{Section}
+\renewcommand*{\subsectionautorefname}{Section}
+\renewcommand{\algorithmautorefname}{Algorithm}
+\renewcommand*{\appendixautorefname}{Appendix}
+
+% --- Bibliography Item Spacing ---
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+	\oldbibliography{#1}%
+	\setlength{\itemsep}{1pt}%
+}
+
+%--------------------------------------------------------------------------------
+% 9. 自定义命令与设置 (Custom Commands & Settings)
+%--------------------------------------------------------------------------------
+
+% --- Highlighting for Revisions ---
+% Depends on `xcolor` and `soul`. `xcolor` is already loaded.
+\usepackage{soul}               % Provides the \hl command for highlighting.
+\newif\ifshowhl
+\showhltrue
+\soulregister\url7              % Make \hl compatible with \url.
+\soulregister\cite7             % Make \hl compatible with \cite.
+\soulregister\ref7              % Make \hl compatible with \ref.
+
+\DeclareRobustCommand{\hlcyan}[1]{%
+	\ifshowhl
+		{\sethlcolor{cyan}\hl{#1}}%
+	\else
+		#1%
+	\fi}
+
+\DeclareRobustCommand{\hlyellow}[1]{%
+	\ifshowhl
+		{\sethlcolor{yellow}\hl{#1}}%
+	\else
+		#1%
+	\fi}
+
+\DeclareRobustCommand{\hlgreen}[1]{%
+	\ifshowhl
+		{\sethlcolor{green}\hl{#1}}%
+	\else
+		#1%
+	\fi}
+
+\definecolor{customgrey}{HTML}{D0D0E0}
+\DeclareRobustCommand{\hlgrey}[1]{%
+	\ifshowhl
+        {\sethlcolor{customgrey}\hl{#1}}%
+	\else
+		#1%
+	\fi}
+
+% ------------------- 批注 -------------------
+\usepackage{pdfcomment}
+
+\newif\ifshowcomments
+\showcommentstrue % \showcommentstrue 来显示批注
+% \showcommentsfalse 
+
+% 定义 \phl (highlight) 命令，高亮颜色为 Goldenrod!40 (淡黄色)
+\DeclareRobustCommand{\phl}[2]{%
+	\ifshowcomments%
+		\pdfmarkupcomment[author={Jesse}, color=Goldenrod!100]{#1}{#2}%
+	\else%
+		#1%
+	\fi%
+}
+
+% 定义 \puline (underline) 命令，下划线颜色为 RoyalBlue!30 (淡蓝色)
+\DeclareRobustCommand{\puline}[2]{%
+	\ifshowcomments%
+		\pdfmarkupcomment[author={Jesse}, markup=Underline, color=RoyalBlue!100]{#1}{#2}%
+	\else%
+		#1%
+	\fi%
+}
+
+% 定义 \pdel (delete) 命令，删除线颜色为 Red!50 (淡红色)
+\DeclareRobustCommand{\pdel}[2]{%
+	\ifshowcomments%
+		\pdfmarkupcomment[author={Jesse}, markup=StrikeOut, color=Red!100]{#1}{#2}%
+	\else%
+	\fi%
+}
+
+% --- Text Position ---
+\usepackage[absolute]{textpos}  % Allows placing text boxes at absolute positions on the page.
+
+\endinput
+% ================================================================================
+% End of Style File
+% ================================================================================
