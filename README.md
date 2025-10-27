@@ -61,4 +61,6 @@ For English:
 ```
 
 For Chinese:
+```latex
 \usepackage{vegaszh}
+```
