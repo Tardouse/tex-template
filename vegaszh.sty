@@ -96,6 +96,7 @@
 % `hyperref` should generally be the LAST package to be loaded.
 %--------------------------------------------------------------------------------
 % \usepackage{cite}               % Improves formatting of citations.
+\usepackage[normalem]{ulem} % use normalem to protect \emph
 \usepackage[hyphens]{url}       % Allows URLs to break at hyphens.
 \urlstyle{tt}                   % Sets the font style for URLs to typewriter.
 
@@ -104,6 +105,7 @@
 	breaklinks=true,            % Allows long links to be broken across lines.
 	colorlinks,                 % Use colors for links instead of boxes.
 	bookmarks=false             % Do not create PDF bookmarks.
+	unicode=true,               % Support for Unicode characters in bookmarks.
 ]{hyperref}
 
 % --- Hyperlink Color Setup ---
@@ -130,9 +132,9 @@
 %--------------------------------------------------------------------------------
 % 9. 自定义命令与设置 (Custom Commands & Settings)
 %--------------------------------------------------------------------------------
-
+\usepackage{xeCJKfntef}
 % --- Highlighting for Revisions ---
-% Depends on `xcolor` and `soul`. `xcolor` is already loaded.
+% Depends on xcolor and soul. xcolor is already loaded.
 \usepackage{soul}               % Provides the \hl command for highlighting.
 \newif\ifshowhl
 \showhltrue
@@ -142,21 +144,21 @@
 
 \DeclareRobustCommand{\hlcyan}[1]{%
 	\ifshowhl
-		{\sethlcolor{cyan}\hl{#1}}%
+		{\CJKsout*[thickness=2.5ex, format=\color{cyan!80}]{#1}}%
 	\else
 		#1%
 	\fi}
 
 \DeclareRobustCommand{\hlyellow}[1]{%
 	\ifshowhl
-		{\sethlcolor{yellow}\hl{#1}}%
+		{\CJKsout*[thickness=2.5ex, format=\color{yellow!80}]{#1}}%
 	\else
 		#1%
 	\fi}
 
 \DeclareRobustCommand{\hlgreen}[1]{%
 	\ifshowhl
-		{\sethlcolor{green}\hl{#1}}%
+		{\CJKsout*[thickness=2.5ex, format=\color{green!80}]{#1}}%
 	\else
 		#1%
 	\fi}
@@ -165,21 +167,19 @@
 \usepackage{pdfcomment}
 
 \newif\ifshowcomments
-\showcommentstrue 
+\showcommentstrue
 
-% 定义 \phl (highlight) 命令，高亮颜色为 Goldenrod!40 (淡黄色)
 \DeclareRobustCommand{\phl}[2]{%
 	\ifshowcomments%
-		\pdfmarkupcomment[author={Jesse}, color=Goldenrod!100]{#1}{#2}%
+		{\CJKsout*[thickness=2.5ex, format=\color{Goldenrod!80}]{#1}\pdfmargincomment[author={Jesse},color=Goldenrod!80]{#2}}
 	\else%
 		#1%
 	\fi%
 }
 
-% 定义 \puline (underline) 命令，下划线颜色为 RoyalBlue!30 (淡蓝色)
 \DeclareRobustCommand{\puline}[2]{%
 	\ifshowcomments%
-		\pdfmarkupcomment[author={Jesse}, markup=Underline, color=RoyalBlue!100]{#1}{#2}%
+		{\CJKunderline*[thickness=0.8pt, format=\color{RoyalBlue!100}]{#1}\pdfmargincomment[author={Jesse},color=RoyalBlue!30]{#2}}%
 	\else%
 		#1%
 	\fi%
@@ -188,11 +188,14 @@
 % 定义 \pdel (delete) 命令，删除线颜色为 Red!50 (淡红色)
 \DeclareRobustCommand{\pdel}[2]{%
 	\ifshowcomments%
-		\pdfmarkupcomment[author={Jesse}, markup=StrikeOut, color=Red!100]{#1}{#2}%
+		{\CJKsout*[thickness=0.8pt, format=\color{Red!100}]{#1}\pdfmargincomment[author={Jesse}, markup=StrikeOut, color=Red!100]{#2}}%
 	\else%
 	\fi%
 }
 
+%--------------------------------------------------------------------------------
+% 10. 其他包 (Miscellaneous Packages)
+%--------------------------------------------------------------------------------
 \usepackage[absolute]{textpos}  % Allows placing text boxes at absolute positions on the page.
 
 \endinput
